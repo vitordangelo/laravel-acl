@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+    mysqlv2bus:
+        image: ambientum/mysql:5.7
+        container_name: mysqlv2bus
+        volumes:
+          - ./mysql:/var/lib/mysql
+        ports:
+          - "3306:3306"
+        environment:
+          - MYSQL_ROOT_PASSWORD=v2bus
+          - MYSQL_PASSWORD=v2bus
+          - MYSQL_DATABASE=v2bus
+          - MYSQL_USER=v2bus
+
+    appv2bus:
+        image: ambientum/php:7.0-caddy
+        container_name: appv2bus
+        volumes:
+          - .:/var/www/app
+        ports:
+          - "80:8080"
+        links:
+          - mysqlv2bus
